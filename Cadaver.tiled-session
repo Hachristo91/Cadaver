@@ -3,47 +3,81 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "kenney_roguelike-rpg-pack/Map/sample_map.tmx",
+    "activeFile": "assets/cleric.tmx",
     "expandedProjectPaths": [
-        "kenney_roguelike-rpg-pack",
-        ".",
-        "kenney_roguelike-rpg-pack/Map"
+        "assets",
+        "kenney_roguelike-rpg-pack/Map",
+        "."
     ],
     "fileStates": {
         "": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
         },
         "#rpg-town": {
             "scaleInDock": 2
         },
         "assets/blacksmith.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 47.833333333333314,
-                "y": 56
+                "x": 79.83333333333334,
+                "y": 56.16666666666666
             }
         },
         "assets/blacksmith.tmx#rpg-town": {
-            "scaleInDock": 2
+            "scaleInDock": 2,
+            "scaleInEditor": 2
+        },
+        "assets/church.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 3,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 79.66666666666666,
+                "y": 72
+            }
+        },
+        "assets/church.tmx#rpg-town": {
+            "scaleInDock": 2,
+            "scaleInEditor": 2
         },
         "assets/cleric.tmx": {
-            "scale": 3,
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 5.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 88.5,
-                "y": 60.66666666666666
+                "x": 55.45454545454545,
+                "y": 82.90909090909092
             }
         },
         "assets/cleric.tmx#rpg-town": {
+            "scaleInDock": 2
+        },
+        "assets/tavern.tmx": {
+            "scale": 3,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 207.33333333333334,
+                "y": 79.33333333333334
+            }
+        },
+        "assets/tavern.tmx#rpg-town": {
             "scaleInDock": 2
         },
         "kenney_roguelike-rpg-pack/Map/sample_indoor.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 301.25,
-                "y": 297
+                "x": 799.75,
+                "y": 799.75
             }
         },
         "kenney_roguelike-rpg-pack/Map/sample_indoor.tmx#roguelikeSheet_transparent": {
@@ -53,8 +87,8 @@
             "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 606.3333333333334,
-                "y": 457.33333333333326
+                "x": 799.6666666666666,
+                "y": 799.6666666666666
             }
         },
         "kenney_roguelike-rpg-pack/Map/sample_map.tmx#Roguelike": {
@@ -68,12 +102,13 @@
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 317.25,
-                "y": 115.5
+                "x": 477,
+                "y": 129.5
             }
         },
         "town.tmx#rpg-town": {
-            "scaleInDock": 1.5
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
         },
         "town.tmx#tiny-town-packed": {
             "scaleInDock": 1
@@ -82,21 +117,27 @@
     "last.exportedFilePath": "C:/Users/bawso/Cadaver/assets",
     "last.imagePath": "C:/Users/bawso/Cadaver/kenney_roguelike-rpg-pack/Spritesheet",
     "lastUsedTilesetExportFilter": "JSON tileset files (*.tsj *.json)",
-    "map.height": 10,
+    "map.height": 15,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 7,
+    "map.width": 20,
     "openFiles": [
         "town.tmx",
-        "kenney_roguelike-rpg-pack/Map/sample_map.tmx"
+        "kenney_roguelike-rpg-pack/Map/sample_map.tmx",
+        "assets/blacksmith.tmx",
+        "kenney_roguelike-rpg-pack/Map/sample_indoor.tmx",
+        "assets/cleric.tmx"
     ],
     "project": "Cadaver.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "kenney_roguelike-rpg-pack/Map/sample_map.tmx",
+        "kenney_roguelike-rpg-pack/Map/sample_indoor.tmx",
         "town.tmx",
-        "kenney_roguelike-rpg-pack/Map/sample_map.tmx"
+        "assets/blacksmith.tmx",
+        "assets/cleric.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.spacing": 1,

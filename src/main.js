@@ -35,7 +35,7 @@ let config = {
     },
     width: 1280,
     height: 800,
-    scene: [Load, Town, Blacksmith],
+    scene: [Load, Town, Blacksmith, Church, Cleric, Tavern],
     fps: { forceSetTimeOut: true, target: 30 }
 }
 

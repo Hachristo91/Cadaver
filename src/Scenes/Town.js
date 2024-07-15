@@ -91,12 +91,20 @@ class Town extends Phaser.Scene {
             this.zone = "cleric";
             if(this.select.isDown){
                 console.log("loading cleric");
+                obj2.destroy();
+                exitX = 24.5;
+                exitY = 13;
+                this.scene.start("clericScene");
             }
         });
         this.physics.add.overlap(my.sprite.purpleTownie, this.church, (obj1, obj2) => {
             this.zone = "church";
             if(this.select.isDown){
                 console.log("loading church");
+                obj2.destroy();
+                exitX = 20.5;
+                exitY = 13;
+                this.scene.start("churchScene");
             }
         });
         this.physics.add.overlap(my.sprite.purpleTownie, this.blacksmith, (obj1, obj2) => {
@@ -113,6 +121,10 @@ class Town extends Phaser.Scene {
             this.zone = "tavern";
             if(this.select.isDown){
                 console.log("loading tavern");
+                obj2.destroy();
+                exitX = 14;
+                exitY = 13;
+                this.scene.start("tavernScene");
             }
         });
 
@@ -142,7 +154,7 @@ class Town extends Phaser.Scene {
         // Camera settings
         this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-        this.cameras.main.startFollow(my.sprite.purpleTownie);
+        this.cameras.main.startFollow(my.sprite.purpleTownie.body);
         this.cameras.main.setZoom(this.SCALE);
 
         this.up = this.input.keyboard.addKey('W');
@@ -150,44 +162,101 @@ class Town extends Phaser.Scene {
         this.down = this.input.keyboard.addKey('S');
         this.right = this.input.keyboard.addKey('D');
 
+        this.attack = this.input.keyboard.addKey('SPACE');
+
         this.physics.world.drawDebug = true;
+        this.attackBuffer = 0;
+        this.facing = "down";
 
     }
 
     update() {
-        if(this.up.isDown && this.left.isDown){
-            my.sprite.purpleTownie.setVelocityY(-70);
-            my.sprite.purpleTownie.setVelocityX(-70);
-            my.sprite.purpleTownie.flipX = true;
-        } else if(this.left.isDown && this.down.isDown){
-            my.sprite.purpleTownie.setVelocityX(-70);
-            my.sprite.purpleTownie.flipX = true;
-            my.sprite.purpleTownie.setVelocityY(70);
-        } else if(this.down.isDown && this.right.isDown){
-            my.sprite.purpleTownie.setVelocityY(70);
-            my.sprite.purpleTownie.setVelocityX(70);
-            my.sprite.purpleTownie.flipX = false;
-        } else if(this.right.isDown && this.up.isDown){
-            my.sprite.purpleTownie.setVelocityY(-70);
-            my.sprite.purpleTownie.setVelocityX(70);
-            my.sprite.purpleTownie.flipX = false;
-        } else if(this.up.isDown){
-            my.sprite.purpleTownie.setVelocityY(-100);
-            my.sprite.purpleTownie.setVelocityX(0);
-        } else if(this.left.isDown){
-            my.sprite.purpleTownie.setVelocityX(-100);
-            my.sprite.purpleTownie.setVelocityY(0);
-            my.sprite.purpleTownie.flipX = true;
-        } else if(this.down.isDown){
-            my.sprite.purpleTownie.setVelocityY(100);
-            my.sprite.purpleTownie.setVelocityX(0);
-        } else if(this.right.isDown){
-            my.sprite.purpleTownie.setVelocityX(100);
-            my.sprite.purpleTownie.setVelocityY(0);
-            my.sprite.purpleTownie.flipX = false;
+        if(this.attackBuffer > 10){
+            if(this.up.isDown){
+                my.sprite.purpleTownie.setVelocityY(-100);
+                my.sprite.purpleTownie.setVelocityX(0);
+                my.sprite.purpleTownie.anims.play('walk_back', true);
+                this.facing = "up";
+            } else if(this.left.isDown){
+                my.sprite.purpleTownie.setVelocityX(-100);
+                my.sprite.purpleTownie.setVelocityY(0);
+                my.sprite.purpleTownie.anims.play('walk_left', true);
+                this.facing = "left";
+            } else if(this.down.isDown){
+                my.sprite.purpleTownie.setVelocityY(100);
+                my.sprite.purpleTownie.setVelocityX(0);
+                my.sprite.purpleTownie.anims.play('walk_down', true);
+                this.facing = "down";
+            } else if(this.right.isDown){
+                my.sprite.purpleTownie.setVelocityX(100);
+                my.sprite.purpleTownie.setVelocityY(0);
+                my.sprite.purpleTownie.anims.play('walk_right', true);
+                this.facing = "right";
+            } else {
+                my.sprite.purpleTownie.setVelocity(0);
+                if(this.facing == "down"){
+                    my.sprite.purpleTownie.anims.play('down_idle', true);
+                } else if(this.facing == "right"){
+                    my.sprite.purpleTownie.anims.play('right_idle', true);
+                } else if(this.facing == "left"){
+                    my.sprite.purpleTownie.anims.play('left_idle', true);
+                } else {
+                    my.sprite.purpleTownie.anims.play('back_idle', true);
+                }
+            }
         } else {
             my.sprite.purpleTownie.setVelocity(0);
+            if(this.facing == "down"){
+                my.sprite.purpleTownie.anims.play('down_idle', true);
+            } else if(this.facing == "right"){
+                my.sprite.purpleTownie.anims.play('right_idle', true);
+            } else if(this.facing == "left"){
+                my.sprite.purpleTownie.anims.play('left_idle', true);
+            } else {
+                my.sprite.purpleTownie.anims.play('back_idle', true);
+            }
         }
+
+        if(this.attack.isDown && this.attackBuffer > 10){
+            my.sprite.purpleTownie.setVelocity(0);
+            this.attackBuffer = 0;
+        }
+
+        if(this.attackBuffer < 10){
+            if(this.facing == "down"){
+                my.sprite.purpleTownie.anims.play('down_stab', true);
+            } else if(this.facing == "right"){
+                my.sprite.purpleTownie.anims.play('right_stab', true);
+            } else if(this.facing == "left"){
+                if(this.attackBuffer == 0){
+                    this.cameras.main.stopFollow();
+                    my.sprite.purpleTownie.x -= 12;
+                    my.sprite.purpleTownie.body.setOffset(15, 0);
+                }
+                my.sprite.purpleTownie.anims.play('left_stab', true);
+                if(this.attackBuffer == 9){
+                    my.sprite.purpleTownie.x += 12;
+                    my.sprite.purpleTownie.body.setOffset(0, 0);
+                    my.sprite.purpleTownie.anims.play('left_idle', true);
+                    this.cameras.main.startFollow(my.sprite.purpleTownie.body);
+                }
+            } else {
+                if(this.attackBuffer == 0){
+                    this.cameras.main.stopFollow();
+                    my.sprite.purpleTownie.y -= 12;
+                    my.sprite.purpleTownie.body.setOffset(0, 15);
+                }
+                my.sprite.purpleTownie.anims.play('back_stab', true);
+                if(this.attackBuffer == 9){
+                    my.sprite.purpleTownie.y += 12;
+                    my.sprite.purpleTownie.body.setOffset(0, 0);
+                    my.sprite.purpleTownie.anims.play('back_idle', true);
+                    this.cameras.main.startFollow(my.sprite.purpleTownie.body);
+                }
+            }
+        }
+
+        this.attackBuffer++;
     }
 
     tileXtoWorld(tileX) {

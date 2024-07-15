@@ -1,6 +1,6 @@
-class Blacksmith extends Phaser.Scene {
+class Cleric extends Phaser.Scene {
     constructor() {
-        super("blacksmithScene");
+        super("clericScene");
     }
 
     preload() {
@@ -9,15 +9,15 @@ class Blacksmith extends Phaser.Scene {
     init() {
         this.TILESIZE = 16;
         this.SCALE = 4.0;
-        this.TILEWIDTH = 10;
-        this.TILEHEIGHT = 7;
+        this.TILEWIDTH = 7;
+        this.TILEHEIGHT = 10;
         this.zone = "none";
     }
 
     create() {
-        // Create a new tilemap which uses 16x16 tiles, and is 10 tiles wide and 7 tiles tall
+        // Create a new tilemap which uses 16x16 tiles, and is 7 tiles wide and 10 tiles tall
         console.log(exitX,exitY);
-        this.map = this.add.tilemap("blacksmith", this.TILESIZE, this.TILESIZE, this.TILEHEIGHT, this.TILEWIDTH);
+        this.map = this.add.tilemap("cleric", this.TILESIZE, this.TILESIZE, this.TILEHEIGHT, this.TILEWIDTH);
 
         // Add a tileset to the map
         this.tileset = this.map.addTilesetImage("rpg-town", "tilemap_tiles");
@@ -28,8 +28,8 @@ class Blacksmith extends Phaser.Scene {
         this.decoLayer = this.map.createLayer("deco", this.tileset, 0, 0);
 
         // Objects
-        this.shop = this.map.createFromObjects("zones", {
-            name: "shop"
+        this.cleric = this.map.createFromObjects("zones", {
+            name: "cleric"
         });
         this.town = this.map.createFromObjects("zones", {
             name: "town"
@@ -37,10 +37,10 @@ class Blacksmith extends Phaser.Scene {
 
         // Since createFromObjects returns an array of regular Sprites, we need to convert 
         // them into Arcade Physics sprites (STATIC_BODY, so they don't move) 
-        this.physics.world.enable(this.shop, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.cleric, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.town, Phaser.Physics.Arcade.STATIC_BODY);
 
-        my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(5), this.tileYtoWorld(5), "purple").setOrigin(0,0);
+        my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(3), this.tileYtoWorld(8), "purple").setOrigin(0,0);
         my.sprite.purpleTownie.setCollideWorldBounds(true);
         my.sprite.purpleTownie.setScale(0.8);
 
