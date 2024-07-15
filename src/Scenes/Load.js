@@ -13,13 +13,14 @@ class Load extends Phaser.Scene {
         // Load tilemap information
         this.load.image("tilemap_tiles", "roguelikeSheet_transparent.png");                   // Packed tilemap
         this.load.tilemapTiledJSON("town", "town.tmj");   // Tilemap in JSON
+        this.load.tilemapTiledJSON("blacksmith", "blacksmith.tmj");   // Tilemap in JSON
     }
 
     create() {
         
 
          // ...and pass to the next Scene
-         this.scene.start("pathfinderScene");
+         this.scene.start("townScene");
     }
 
     // Never get here since a new scene is started in create()

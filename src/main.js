@@ -35,12 +35,14 @@ let config = {
     },
     width: 1280,
     height: 800,
-    scene: [Load, Pathfinder],
+    scene: [Load, Town, Blacksmith],
     fps: { forceSetTimeOut: true, target: 30 }
 }
 
 var cursors;
 const SCALE = 2.0;
 var my = {sprite: {}};
+var exitX = 0;
+var exitY = 0;
 
 const game = new Phaser.Game(config);

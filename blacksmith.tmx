@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="10" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" name="rpg-town" tilewidth="16" tileheight="16" spacing="1" tilecount="1767" columns="57">
+  <image source="kenney_roguelike-rpg-pack/Spritesheet/roguelikeSheet_transparent.png" width="968" height="526"/>
+ </tileset>
+ <layer id="2" name="floor" width="10" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,121,121,121,121,121,121,121,121,0,
+0,121,121,121,121,121,121,121,121,0,
+0,121,121,121,121,121,121,121,121,0,
+0,121,121,121,121,121,121,121,121,0,
+0,121,121,121,121,121,121,121,121,0
+</data>
+ </layer>
+ <layer id="1" name="walls-n-furniture" width="10" height="7">
+  <data encoding="csv">
+937,1108,938,938,1108,938,938,1108,938,939,
+880,1110,1053,1167,1053,1167,1110,1053,1053,882,
+880,0,0,0,0,144,1305,0,0,882,
+880,198,199,313,0,0,426,0,16,882,
+880,0,0,0,0,0,0,0,613,882,
+880,0,0,0,0,0,0,0,0,882,
+880,0,0,0,0,0,0,0,0,882
+</data>
+ </layer>
+ <layer id="3" name="deco" width="10" height="7">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,569,0,
+0,146,146,0,0,0,900,959,626,0,
+0,0,0,0,0,0,0,0,615,0,
+0,240,0,242,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,94,0,0,0,0
+</data>
+ </layer>
+</map>

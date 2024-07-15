@@ -13,12 +13,48 @@
         "": {
             "scaleInDock": 1
         },
+        "#rpg-town": {
+            "scaleInDock": 2
+        },
+        "assets/blacksmith.tmx": {
+            "scale": 3,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 47.833333333333314,
+                "y": 56
+            }
+        },
+        "assets/blacksmith.tmx#rpg-town": {
+            "scaleInDock": 2
+        },
+        "assets/cleric.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 88.5,
+                "y": 60.66666666666666
+            }
+        },
+        "assets/cleric.tmx#rpg-town": {
+            "scaleInDock": 2
+        },
+        "kenney_roguelike-rpg-pack/Map/sample_indoor.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 301.25,
+                "y": 297
+            }
+        },
+        "kenney_roguelike-rpg-pack/Map/sample_indoor.tmx#roguelikeSheet_transparent": {
+            "scaleInDock": 1
+        },
         "kenney_roguelike-rpg-pack/Map/sample_map.tmx": {
             "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 687.3333333333333,
-                "y": 458
+                "x": 606.3333333333334,
+                "y": 457.33333333333326
             }
         },
         "kenney_roguelike-rpg-pack/Map/sample_map.tmx#Roguelike": {
@@ -26,11 +62,14 @@
             "scaleInEditor": 1
         },
         "town.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 329,
-                "y": 172
+                "x": 317.25,
+                "y": 115.5
             }
         },
         "town.tmx#rpg-town": {
@@ -43,12 +82,12 @@
     "last.exportedFilePath": "C:/Users/bawso/Cadaver/assets",
     "last.imagePath": "C:/Users/bawso/Cadaver/kenney_roguelike-rpg-pack/Spritesheet",
     "lastUsedTilesetExportFilter": "JSON tileset files (*.tsj *.json)",
-    "map.height": 25,
+    "map.height": 10,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 40,
+    "map.width": 7,
     "openFiles": [
         "town.tmx",
         "kenney_roguelike-rpg-pack/Map/sample_map.tmx"

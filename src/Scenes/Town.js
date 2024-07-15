@@ -1,6 +1,6 @@
-class Pathfinder extends Phaser.Scene {
+class Town extends Phaser.Scene {
     constructor() {
-        super("pathfinderScene");
+        super("townScene");
     }
 
     preload() {
@@ -70,7 +70,11 @@ class Pathfinder extends Phaser.Scene {
         this.physics.world.enable(this.blacksmith, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.tavern, Phaser.Physics.Arcade.STATIC_BODY);
 
-        my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(28.5), this.tileYtoWorld(12), "purple").setOrigin(0,0);
+        if(exitX == 0 && exitY == 0){
+            my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(28.5), this.tileYtoWorld(12), "purple").setOrigin(0,0);
+        } else {
+            my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(exitX), this.tileYtoWorld(exitY), "purple").setOrigin(0,0);
+        }
         my.sprite.purpleTownie.setCollideWorldBounds(true);
         my.sprite.purpleTownie.setScale(0.8);
 
@@ -99,6 +103,10 @@ class Pathfinder extends Phaser.Scene {
             this.zone = "blacksmith";
             if(this.select.isDown){
                 console.log("loading blacksmith");
+                obj2.destroy();
+                exitX = 33;
+                exitY = 13;
+                this.scene.start("blacksmithScene");
             }
         });
         this.physics.add.overlap(my.sprite.purpleTownie, this.tavern, (obj1, obj2) => {
