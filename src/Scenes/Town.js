@@ -19,7 +19,7 @@ class Town extends Phaser.Scene {
         this.map = this.add.tilemap("town", this.TILESIZE, this.TILESIZE, this.TILEHEIGHT, this.TILEWIDTH);
 
         // Add a tileset to the map
-        this.tileset = this.map.addTilesetImage("rpg-town", "tilemap_tiles");
+        this.tileset = [this.map.addTilesetImage("rpg-town", "tilemap_tiles"), this.map.addTilesetImage("townsfolk", "townsfolk_tiles")];
 
         // Create the layers
         this.groundLayer = this.map.createLayer("ground", this.tileset, 0, 0);
@@ -72,6 +72,9 @@ class Town extends Phaser.Scene {
 
         if(exitX == 0 && exitY == 0){
             my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(28.5), this.tileYtoWorld(12), "purple").setOrigin(0,0);
+            this.sound.play("town_theme", {
+                volume: .6   // Can adjust volume using this, goes from 0 to 1
+            });
         } else {
             my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(exitX), this.tileYtoWorld(exitY), "purple").setOrigin(0,0);
         }
@@ -217,9 +220,12 @@ class Town extends Phaser.Scene {
             }
         }
 
-        if(this.attack.isDown && this.attackBuffer > 10){
+        if(this.attack.isDown && this.attackBuffer > 15){
             my.sprite.purpleTownie.setVelocity(0);
             this.attackBuffer = 0;
+            this.sound.play("attack", {
+                volume: 1   // Can adjust volume using this, goes from 0 to 1
+            });
         }
 
         if(this.attackBuffer < 10){

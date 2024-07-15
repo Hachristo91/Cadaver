@@ -20,7 +20,7 @@ class Tavern extends Phaser.Scene {
         this.map = this.add.tilemap("tavern", this.TILESIZE, this.TILESIZE, this.TILEHEIGHT, this.TILEWIDTH);
 
         // Add a tileset to the map
-        this.tileset = this.map.addTilesetImage("rpg-town", "tilemap_tiles");
+        this.tileset = [this.map.addTilesetImage("rpg-town", "tilemap_tiles"), this.map.addTilesetImage("townsfolk", "townsfolk_tiles")];
 
         // Create the layers
         this.floorLayer = this.map.createLayer("floor", this.tileset, 0, 0);
@@ -137,9 +137,12 @@ class Tavern extends Phaser.Scene {
             }
         }
 
-        if(this.attack.isDown && this.attackBuffer > 10){
+        if(this.attack.isDown && this.attackBuffer > 15){
             my.sprite.purpleTownie.setVelocity(0);
             this.attackBuffer = 0;
+            this.sound.play("attack", {
+                volume: 1   // Can adjust volume using this, goes from 0 to 1
+            });
         }
 
         if(this.attackBuffer < 10){

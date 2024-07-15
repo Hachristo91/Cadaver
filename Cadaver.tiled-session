@@ -22,30 +22,38 @@
                 4
             ],
             "scale": 3,
-            "selectedLayer": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 79.83333333333334,
-                "y": 56.16666666666666
+                "x": 39.49999999999997,
+                "y": 61.33333333333334
             }
         },
         "assets/blacksmith.tmx#rpg-town": {
             "scaleInDock": 2,
             "scaleInEditor": 2
         },
+        "assets/blacksmith.tmx#townsfolk": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "assets/church.tmx": {
             "expandedObjectLayers": [
                 4
             ],
             "scale": 3,
-            "selectedLayer": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 79.66666666666666,
-                "y": 72
+                "x": 80.16666666666666,
+                "y": 90.66666666666664
             }
         },
         "assets/church.tmx#rpg-town": {
             "scaleInDock": 2,
             "scaleInEditor": 2
+        },
+        "assets/church.tmx#townsfolk": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "assets/cleric.tmx": {
             "expandedObjectLayers": [
@@ -54,23 +62,35 @@
             "scale": 5.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 55.45454545454545,
+                "x": 55.54545454545455,
                 "y": 82.90909090909092
             }
         },
         "assets/cleric.tmx#rpg-town": {
             "scaleInDock": 2
         },
+        "assets/cleric.tmx#townsfolk": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "assets/tavern.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
             "scale": 3,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 207.33333333333334,
-                "y": 79.33333333333334
+                "x": 206.83333333333331,
+                "y": 77.33333333333334
             }
         },
         "assets/tavern.tmx#rpg-town": {
-            "scaleInDock": 2
+            "scaleInDock": 2,
+            "scaleInEditor": 2
+        },
+        "assets/tavern.tmx#townsfolk": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "kenney_roguelike-rpg-pack/Map/sample_indoor.tmx": {
             "scale": 2,
@@ -100,10 +120,10 @@
                 7
             ],
             "scale": 2,
-            "selectedLayer": 3,
+            "selectedLayer": -1,
             "viewCenter": {
-                "x": 477,
-                "y": 129.5
+                "x": 311.25,
+                "y": 197
             }
         },
         "town.tmx#rpg-town": {
@@ -112,10 +132,14 @@
         },
         "town.tmx#tiny-town-packed": {
             "scaleInDock": 1
+        },
+        "town.tmx#townsfolk": {
+            "scaleInDock": 1,
+            "scaleInEditor": 3
         }
     },
     "last.exportedFilePath": "C:/Users/bawso/Cadaver/assets",
-    "last.imagePath": "C:/Users/bawso/Cadaver/kenney_roguelike-rpg-pack/Spritesheet",
+    "last.imagePath": "C:/Users/bawso/Cadaver/assets",
     "lastUsedTilesetExportFilter": "JSON tileset files (*.tsj *.json)",
     "map.height": 15,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
@@ -140,9 +164,9 @@
         "assets/cleric.tmx"
     ],
     "tileset.embedInMap": true,
-    "tileset.spacing": 1,
+    "tileset.spacing": 0,
     "tileset.tileSize": {
-        "height": 16,
+        "height": 24,
         "width": 16
     }
 }

@@ -28,7 +28,7 @@
             887, 888, 888, 888, 888, 888, 889,
             887, 888, 888, 888, 888, 888, 889,
             887, 0, 0, 0, 0, 0, 889,
-            887, 0, 0, 304, 0, 0, 889,
+            887, 0, 1936, 304, 0, 0, 889,
             887, 729, 0, 0, 0, 843, 889,
             887, 840, 0, 0, 841, 0, 889,
             887, 0, 843, 0, 0, 0, 889,
@@ -99,7 +99,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
@@ -2951,6 +2951,19 @@
                          "value":true
                         }]
                 }],
+         "tilewidth":16
+        }, 
+        {
+         "columns":40,
+         "firstgid":1768,
+         "image":"townsfolk.png",
+         "imageheight":192,
+         "imagewidth":640,
+         "margin":0,
+         "name":"townsfolk",
+         "spacing":0,
+         "tilecount":320,
+         "tileheight":24,
          "tilewidth":16
         }],
  "tilewidth":16,

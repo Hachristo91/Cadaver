@@ -23,7 +23,7 @@
         {
          "data":[937, 1108, 938, 938, 1108, 938, 938, 1108, 938, 939,
             880, 1110, 1053, 1167, 1053, 1167, 1110, 1053, 1053, 882,
-            880, 0, 0, 0, 0, 144, 1305, 0, 0, 882,
+            880, 0, 1779, 0, 0, 144, 1305, 0, 0, 882,
             880, 198, 199, 313, 0, 0, 426, 0, 16, 882,
             880, 0, 0, 0, 0, 0, 0, 0, 613, 882,
             880, 0, 0, 0, 0, 0, 0, 0, 0, 882,
@@ -52,18 +52,18 @@
                  "visible":false,
                  "width":0,
                  "x":88,
-                 "y":102.333333333333
+                 "y":102.333
                 }, 
                 {
-                 "height":47.6666666666667,
+                 "height":47.6667,
                  "id":2,
                  "name":"shop",
                  "rotation":0,
                  "type":"",
                  "visible":false,
-                 "width":63.3333333333333,
-                 "x":16.3333333333333,
-                 "y":32.3333333333333
+                 "width":63.3333,
+                 "x":16.3333,
+                 "y":32.3333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -90,7 +90,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
@@ -3110,6 +3110,19 @@
                          "value":true
                         }]
                 }],
+         "tilewidth":16
+        }, 
+        {
+         "columns":40,
+         "firstgid":1768,
+         "image":"townsfolk.png",
+         "imageheight":192,
+         "imagewidth":640,
+         "margin":0,
+         "name":"townsfolk",
+         "spacing":0,
+         "tilecount":320,
+         "tileheight":24,
          "tilewidth":16
         }],
  "tilewidth":16,

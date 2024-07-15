@@ -26,11 +26,15 @@ class Load extends Phaser.Scene {
 
         // Load tilemap information
         this.load.image("tilemap_tiles", "roguelikeSheet_transparent.png");                   // Packed tilemap
+        this.load.image("townsfolk_tiles", "townsfolk.png");
         this.load.tilemapTiledJSON("town", "town.tmj");   // Tilemap in JSON
         this.load.tilemapTiledJSON("blacksmith", "blacksmith.tmj");   // Tilemap in JSON
         this.load.tilemapTiledJSON("cleric", "cleric.tmj");   // Tilemap in JSON
         this.load.tilemapTiledJSON("church", "church.tmj");   // Tilemap in JSON
         this.load.tilemapTiledJSON("tavern", "tavern.tmj");   // Tilemap in JSON
+
+        this.load.audio("town_theme", "Town_theme.mp3");
+        this.load.audio("attack", "knifeSlice.ogg");
     }
 
     create() {
