@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="14">
  <editorsettings>
   <export target="assets/town.tmj" format="json"/>
  </editorsettings>
@@ -205,6 +205,11 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="528">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="572">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -220,6 +225,21 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="588">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="616">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="617">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="629">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -231,6 +251,21 @@
    </properties>
   </tile>
   <tile id="631">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="645">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="673">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="674">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -1713,10 +1748,21 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,679,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="7" name="special-areas">
+  <object id="1" name="tavern" x="232" y="217.5" visible="0"/>
+  <object id="2" name="blacksmith" x="535.5" y="217.5" visible="0"/>
+  <object id="5" name="flowerbed" x="383.909" y="16" width="80.0909" height="79.8182" visible="0"/>
+  <object id="6" name="pond" x="281.5" y="0.5" width="92.25" height="35.5" visible="0"/>
+  <object id="7" name="kiosk" x="233.75" y="43.5" width="44.5" height="42" visible="0"/>
+  <object id="8" name="church" x="336.25" y="217.5" visible="0"/>
+  <object id="9" name="cleric" x="400.25" y="217.75" visible="0"/>
+  <object id="10" name="statue" x="588.5" y="189" width="23" height="28.5" visible="0"/>
+  <object id="11" name="crypt" x="624" y="207.5" width="15.75" height="63.75" visible="0"/>
+ </objectgroup>
  <layer id="5" name="roof" width="40" height="25">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

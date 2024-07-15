@@ -11,6 +11,7 @@ class Pathfinder extends Phaser.Scene {
         this.SCALE = 4.0;
         this.TILEWIDTH = 40;
         this.TILEHEIGHT = 25;
+        this.zone = "none";
     }
 
     create() {
@@ -28,10 +29,87 @@ class Pathfinder extends Phaser.Scene {
         this.roofsLayer = this.map.createLayer("roof", this.tileset, 0, 0);
         this.decoLayer = this.map.createLayer("building-deco", this.tileset, 0, 0);
 
+        // Objects
+        this.crypt = this.map.createFromObjects("special-areas", {
+            name: "crypt"
+        });
+        this.statue = this.map.createFromObjects("special-areas", {
+            name: "statue"
+        });
+        this.cleric = this.map.createFromObjects("special-areas", {
+            name: "cleric"
+        });
+        this.church = this.map.createFromObjects("special-areas", {
+            name: "church"
+        });
+        this.kiosk = this.map.createFromObjects("special-areas", {
+            name: "kiosk"
+        });
+        this.pond = this.map.createFromObjects("special-areas", {
+            name: "pond"
+        });
+        this.flowerbed = this.map.createFromObjects("special-areas", {
+            name: "flowerbed"
+        });
+        this.blacksmith = this.map.createFromObjects("special-areas", {
+            name: "blacksmith"
+        });
+        this.tavern = this.map.createFromObjects("special-areas", {
+            name: "tavern"
+        });
+
+        // Since createFromObjects returns an array of regular Sprites, we need to convert 
+        // them into Arcade Physics sprites (STATIC_BODY, so they don't move) 
+        this.physics.world.enable(this.crypt, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.statue, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.cleric, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.church, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.kiosk, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.pond, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.flowerbed, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.blacksmith, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.tavern, Phaser.Physics.Arcade.STATIC_BODY);
+
+        my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(28.5), this.tileYtoWorld(12), "purple").setOrigin(0,0);
+        my.sprite.purpleTownie.setCollideWorldBounds(true);
+        my.sprite.purpleTownie.setScale(0.8);
+
+        this.select = this.input.keyboard.addKey('E');
+
+        // Handle collision with objects
+        this.physics.add.overlap(my.sprite.purpleTownie, this.crypt, (obj1, obj2) => {
+            this.zone = "crypt";
+            if(this.select.isDown){
+                console.log("loading crypt");
+            }
+        });
+        this.physics.add.overlap(my.sprite.purpleTownie, this.cleric, (obj1, obj2) => {
+            this.zone = "cleric";
+            if(this.select.isDown){
+                console.log("loading cleric");
+            }
+        });
+        this.physics.add.overlap(my.sprite.purpleTownie, this.church, (obj1, obj2) => {
+            this.zone = "church";
+            if(this.select.isDown){
+                console.log("loading church");
+            }
+        });
+        this.physics.add.overlap(my.sprite.purpleTownie, this.blacksmith, (obj1, obj2) => {
+            this.zone = "blacksmith";
+            if(this.select.isDown){
+                console.log("loading blacksmith");
+            }
+        });
+        this.physics.add.overlap(my.sprite.purpleTownie, this.tavern, (obj1, obj2) => {
+            this.zone = "tavern";
+            if(this.select.isDown){
+                console.log("loading tavern");
+            }
+        });
+
         // Create townsfolk sprite
         // Use setOrigin() to ensure the tile space computations work well
-        my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(5), this.tileYtoWorld(5), "purple").setOrigin(0,0);
-        my.sprite.purpleTownie.setScale(0.8);
 
         this.physics.add.collider(my.sprite.purpleTownie, this.housesLayer);
 
@@ -39,9 +117,22 @@ class Pathfinder extends Phaser.Scene {
             collides: true
         });
 
+        this.physics.add.collider(my.sprite.purpleTownie, this.treesLayer);
+
+        this.treesLayer.setCollisionByProperty({
+            collides: true
+        });
+
+        this.physics.add.collider(my.sprite.purpleTownie, this.roofsLayer);
+
+        this.roofsLayer.setCollisionByProperty({
+            collides: true
+        });
+
         my.sprite.purpleTownie.setMaxVelocity(500);
         
         // Camera settings
+        this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(my.sprite.purpleTownie);
         this.cameras.main.setZoom(this.SCALE);
@@ -51,18 +142,40 @@ class Pathfinder extends Phaser.Scene {
         this.down = this.input.keyboard.addKey('S');
         this.right = this.input.keyboard.addKey('D');
 
+        this.physics.world.drawDebug = true;
+
     }
 
     update() {
-        if(this.up.isDown){
+        if(this.up.isDown && this.left.isDown){
+            my.sprite.purpleTownie.setVelocityY(-70);
+            my.sprite.purpleTownie.setVelocityX(-70);
+            my.sprite.purpleTownie.flipX = true;
+        } else if(this.left.isDown && this.down.isDown){
+            my.sprite.purpleTownie.setVelocityX(-70);
+            my.sprite.purpleTownie.flipX = true;
+            my.sprite.purpleTownie.setVelocityY(70);
+        } else if(this.down.isDown && this.right.isDown){
+            my.sprite.purpleTownie.setVelocityY(70);
+            my.sprite.purpleTownie.setVelocityX(70);
+            my.sprite.purpleTownie.flipX = false;
+        } else if(this.right.isDown && this.up.isDown){
+            my.sprite.purpleTownie.setVelocityY(-70);
+            my.sprite.purpleTownie.setVelocityX(70);
+            my.sprite.purpleTownie.flipX = false;
+        } else if(this.up.isDown){
             my.sprite.purpleTownie.setVelocityY(-100);
+            my.sprite.purpleTownie.setVelocityX(0);
         } else if(this.left.isDown){
             my.sprite.purpleTownie.setVelocityX(-100);
+            my.sprite.purpleTownie.setVelocityY(0);
             my.sprite.purpleTownie.flipX = true;
         } else if(this.down.isDown){
             my.sprite.purpleTownie.setVelocityY(100);
+            my.sprite.purpleTownie.setVelocityX(0);
         } else if(this.right.isDown){
             my.sprite.purpleTownie.setVelocityX(100);
+            my.sprite.purpleTownie.setVelocityY(0);
             my.sprite.purpleTownie.flipX = false;
         } else {
             my.sprite.purpleTownie.setVelocity(0);

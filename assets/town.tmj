@@ -134,7 +134,7 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 679, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":25,
          "id":4,
@@ -143,6 +143,116 @@
          "type":"tilelayer",
          "visible":true,
          "width":40,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":7,
+         "name":"special-areas",
+         "objects":[
+                {
+                 "height":0,
+                 "id":1,
+                 "name":"tavern",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":0,
+                 "x":232,
+                 "y":217.5
+                }, 
+                {
+                 "height":0,
+                 "id":2,
+                 "name":"blacksmith",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":0,
+                 "x":535.5,
+                 "y":217.5
+                }, 
+                {
+                 "height":79.8181818181818,
+                 "id":5,
+                 "name":"flowerbed",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":80.0909090909091,
+                 "x":383.909090909091,
+                 "y":16
+                }, 
+                {
+                 "height":35.5,
+                 "id":6,
+                 "name":"pond",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":92.25,
+                 "x":281.5,
+                 "y":0.5
+                }, 
+                {
+                 "height":42,
+                 "id":7,
+                 "name":"kiosk",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":44.5,
+                 "x":233.75,
+                 "y":43.5
+                }, 
+                {
+                 "height":0,
+                 "id":8,
+                 "name":"church",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":0,
+                 "x":336.25,
+                 "y":217.5
+                }, 
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"cleric",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":0,
+                 "x":400.25,
+                 "y":217.75
+                }, 
+                {
+                 "height":28.5,
+                 "id":10,
+                 "name":"statue",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":23,
+                 "x":588.5,
+                 "y":189
+                }, 
+                {
+                 "height":63.75,
+                 "id":11,
+                 "name":"crypt",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":15.75,
+                 "x":624,
+                 "y":207.5
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -218,8 +328,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":1,
+ "nextlayerid":8,
+ "nextobjectid":14,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
@@ -599,6 +709,15 @@
                 },
             
                 {
+                 "id":528,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
                  "id":572,
                  "properties":[
                         {
@@ -626,6 +745,33 @@
                         }]
                 }, 
                 {
+                 "id":588,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":616,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":617,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
                  "id":629,
                  "properties":[
                         {
@@ -645,6 +791,33 @@
                 }, 
                 {
                  "id":631,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":645,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":673,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":674,
                  "properties":[
                         {
                          "name":"collides",
@@ -894,7 +1067,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":760,
                  "properties":[
@@ -957,8 +1131,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":767,
                  "properties":[
@@ -1255,7 +1428,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":872,
                  "properties":[
@@ -1318,8 +1492,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":879,
                  "properties":[
@@ -1616,7 +1789,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":984,
                  "properties":[
@@ -1679,8 +1853,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":991,
                  "properties":[
@@ -1977,7 +2150,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":1096,
                  "properties":[
@@ -2040,8 +2214,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":1103,
                  "properties":[
@@ -2338,7 +2511,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":1172,
                  "properties":[
@@ -2401,8 +2575,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":1215,
                  "properties":[
@@ -2699,7 +2872,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":1284,
                  "properties":[
@@ -2762,8 +2936,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":1327,
                  "properties":[
@@ -3060,7 +3233,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":1396,
                  "properties":[
