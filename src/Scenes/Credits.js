@@ -15,6 +15,12 @@ class Credits extends Phaser.Scene {
 
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.rKey)) {
+            exitX = 0;
+            exitY = 0;
+            questState = 0;
+            flower = false;
+            secret = false;
+            tearquestState = 0;
             this.scene.start("startScene");
         }
     }
