@@ -24,6 +24,8 @@ class Load extends Phaser.Scene {
         this.load.image("back_right", "back_right.png");
         this.load.image("back_stab", "back_stab.png");
 
+        this.load.image("textBox", "textBox.png");
+
         // Load tilemap information
         this.load.image("tilemap_tiles", "roguelikeSheet_transparent.png");                   // Packed tilemap
         this.load.image("townsfolk_tiles", "townsfolk.png");
@@ -35,6 +37,8 @@ class Load extends Phaser.Scene {
 
         this.load.audio("town_theme", "Town_theme.mp3");
         this.load.audio("attack", "knifeSlice.ogg");
+
+        this.load.bitmapFont("rocketSquare", "KennyRocketSquare_0.png", "KennyRocketSquare.fnt");
     }
 
     create() {
