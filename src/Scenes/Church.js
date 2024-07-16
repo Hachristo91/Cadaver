@@ -12,6 +12,8 @@ class Church extends Phaser.Scene {
         this.TILEWIDTH = 10;
         this.TILEHEIGHT = 15;
         this.zone = "none";
+        this.talking = false;
+        this.priestLine = 0;
     }
 
     create() {
@@ -45,6 +47,10 @@ class Church extends Phaser.Scene {
         my.sprite.purpleTownie.setCollideWorldBounds(true);
         my.sprite.purpleTownie.setScale(0.8);
 
+        my.sprite.textBox = this.physics.add.sprite(160, 35, "textBox");
+        my.sprite.textBox.setScale(1, 0.5);
+        my.sprite.textBox.visible = false;
+
         this.select = this.input.keyboard.addKey('E');
 
         // Handle collision with objects
@@ -54,6 +60,14 @@ class Church extends Phaser.Scene {
                 obj2.destroy();
                 console.log("loading town");
                 this.scene.start("townScene");
+            }
+        });
+
+        this.physics.add.overlap(my.sprite.purpleTownie, this.priest, (obj1, obj2) => {
+            this.zone = "priest";
+            if(this.select.isDown){
+                my.sprite.textBox.visible = true;
+                this.talking = true;
             }
         });
 
@@ -67,6 +81,26 @@ class Church extends Phaser.Scene {
         });
 
         my.sprite.purpleTownie.setMaxVelocity(500);
+
+        // Text
+        this.priestText = [
+            "Blessed day, my child. What can I do for you?\r\n1. Can you bless this water?\r\n2. Nothing right now",
+            "Of course. May this water bring peace to the\r\nvirtuous, and wrath to the damned\r\n1. Thanks",
+            "Blessed day, my child. What can I do for you?\r\n1. Nothing right now"
+        ];
+
+        this.p1 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.priestText[0], 8);
+        this.p1.visible = false;
+
+        this.p2 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.priestText[1], 8);
+        this.p2.visible = false;
+
+        this.p3 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.priestText[2], 8);
+        this.p3.visible = false;
+
         
         // Camera settings
         this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -80,34 +114,51 @@ class Church extends Phaser.Scene {
         this.right = this.input.keyboard.addKey('D');
         this.attack = this.input.keyboard.addKey('SPACE');
 
-        this.physics.world.drawDebug = true;
+        this.option1 = this.input.keyboard.addKey('ONE');
+        this.option2 = this.input.keyboard.addKey('TWO');
+
+        this.physics.world.drawDebug = false;
         this.attackBuffer = 0;
+        this.talkBuffer = 0;
         this.facing = "down";
 
     }
 
     update() {
-        if(this.attackBuffer > 10){
-            if(this.up.isDown){
-                my.sprite.purpleTownie.setVelocityY(-100);
-                my.sprite.purpleTownie.setVelocityX(0);
-                my.sprite.purpleTownie.anims.play('walk_back', true);
-                this.facing = "up";
-            } else if(this.left.isDown){
-                my.sprite.purpleTownie.setVelocityX(-100);
-                my.sprite.purpleTownie.setVelocityY(0);
-                my.sprite.purpleTownie.anims.play('walk_left', true);
-                this.facing = "left";
-            } else if(this.down.isDown){
-                my.sprite.purpleTownie.setVelocityY(100);
-                my.sprite.purpleTownie.setVelocityX(0);
-                my.sprite.purpleTownie.anims.play('walk_down', true);
-                this.facing = "down";
-            } else if(this.right.isDown){
-                my.sprite.purpleTownie.setVelocityX(100);
-                my.sprite.purpleTownie.setVelocityY(0);
-                my.sprite.purpleTownie.anims.play('walk_right', true);
-                this.facing = "right";
+        if(this.talking == false){
+            if(this.attackBuffer > 10){
+                if(this.up.isDown){
+                    my.sprite.purpleTownie.setVelocityY(-100);
+                    my.sprite.purpleTownie.setVelocityX(0);
+                    my.sprite.purpleTownie.anims.play('walk_back', true);
+                    this.facing = "up";
+                } else if(this.left.isDown){
+                    my.sprite.purpleTownie.setVelocityX(-100);
+                    my.sprite.purpleTownie.setVelocityY(0);
+                    my.sprite.purpleTownie.anims.play('walk_left', true);
+                    this.facing = "left";
+                } else if(this.down.isDown){
+                    my.sprite.purpleTownie.setVelocityY(100);
+                    my.sprite.purpleTownie.setVelocityX(0);
+                    my.sprite.purpleTownie.anims.play('walk_down', true);
+                    this.facing = "down";
+                } else if(this.right.isDown){
+                    my.sprite.purpleTownie.setVelocityX(100);
+                    my.sprite.purpleTownie.setVelocityY(0);
+                    my.sprite.purpleTownie.anims.play('walk_right', true);
+                    this.facing = "right";
+                } else {
+                    my.sprite.purpleTownie.setVelocity(0);
+                    if(this.facing == "down"){
+                        my.sprite.purpleTownie.anims.play('down_idle', true);
+                    } else if(this.facing == "right"){
+                        my.sprite.purpleTownie.anims.play('right_idle', true);
+                    } else if(this.facing == "left"){
+                        my.sprite.purpleTownie.anims.play('left_idle', true);
+                    } else {
+                        my.sprite.purpleTownie.anims.play('back_idle', true);
+                    }
+                }
             } else {
                 my.sprite.purpleTownie.setVelocity(0);
                 if(this.facing == "down"){
@@ -120,62 +171,54 @@ class Church extends Phaser.Scene {
                     my.sprite.purpleTownie.anims.play('back_idle', true);
                 }
             }
+
+            if(this.attack.isDown && this.attackBuffer > 15){
+                my.sprite.purpleTownie.setVelocity(0);
+                this.attackBuffer = 0;
+                this.sound.play("attack", {
+                    volume: 1   // Can adjust volume using this, goes from 0 to 1
+                });
+            }
+
+            if(this.attackBuffer < 10){
+                if(this.facing == "down"){
+                    my.sprite.purpleTownie.anims.play('down_stab', true);
+                } else if(this.facing == "right"){
+                    my.sprite.purpleTownie.anims.play('right_stab', true);
+                } else if(this.facing == "left"){
+                    if(this.attackBuffer == 0){
+                        this.cameras.main.stopFollow();
+                        my.sprite.purpleTownie.x -= 12;
+                        my.sprite.purpleTownie.body.setOffset(15, 0);
+                    }
+                    my.sprite.purpleTownie.anims.play('left_stab', true);
+                    if(this.attackBuffer == 9){
+                        my.sprite.purpleTownie.x += 12;
+                        my.sprite.purpleTownie.body.setOffset(0, 0);
+                        my.sprite.purpleTownie.anims.play('left_idle', true);
+                        this.cameras.main.startFollow(my.sprite.purpleTownie.body);
+                    }
+                } else {
+                    if(this.attackBuffer == 0){
+                        this.cameras.main.stopFollow();
+                        my.sprite.purpleTownie.y -= 12;
+                        my.sprite.purpleTownie.body.setOffset(0, 15);
+                    }
+                    my.sprite.purpleTownie.anims.play('back_stab', true);
+                    if(this.attackBuffer == 9){
+                        my.sprite.purpleTownie.y += 12;
+                        my.sprite.purpleTownie.body.setOffset(0, 0);
+                        my.sprite.purpleTownie.anims.play('back_idle', true);
+                        this.cameras.main.startFollow(my.sprite.purpleTownie.body);
+                    }
+                }
+            }
+
+            this.attackBuffer++;
         } else {
-            my.sprite.purpleTownie.setVelocity(0);
-            if(this.facing == "down"){
-                my.sprite.purpleTownie.anims.play('down_idle', true);
-            } else if(this.facing == "right"){
-                my.sprite.purpleTownie.anims.play('right_idle', true);
-            } else if(this.facing == "left"){
-                my.sprite.purpleTownie.anims.play('left_idle', true);
-            } else {
-                my.sprite.purpleTownie.anims.play('back_idle', true);
-            }
+            this.priestTalk();
+            this.talkBuffer++;
         }
-
-        if(this.attack.isDown && this.attackBuffer > 15){
-            my.sprite.purpleTownie.setVelocity(0);
-            this.attackBuffer = 0;
-            this.sound.play("attack", {
-                volume: 1   // Can adjust volume using this, goes from 0 to 1
-            });
-        }
-
-        if(this.attackBuffer < 10){
-            if(this.facing == "down"){
-                my.sprite.purpleTownie.anims.play('down_stab', true);
-            } else if(this.facing == "right"){
-                my.sprite.purpleTownie.anims.play('right_stab', true);
-            } else if(this.facing == "left"){
-                if(this.attackBuffer == 0){
-                    this.cameras.main.stopFollow();
-                    my.sprite.purpleTownie.x -= 12;
-                    my.sprite.purpleTownie.body.setOffset(15, 0);
-                }
-                my.sprite.purpleTownie.anims.play('left_stab', true);
-                if(this.attackBuffer == 9){
-                    my.sprite.purpleTownie.x += 12;
-                    my.sprite.purpleTownie.body.setOffset(0, 0);
-                    my.sprite.purpleTownie.anims.play('left_idle', true);
-                    this.cameras.main.startFollow(my.sprite.purpleTownie.body);
-                }
-            } else {
-                if(this.attackBuffer == 0){
-                    this.cameras.main.stopFollow();
-                    my.sprite.purpleTownie.y -= 12;
-                    my.sprite.purpleTownie.body.setOffset(0, 15);
-                }
-                my.sprite.purpleTownie.anims.play('back_stab', true);
-                if(this.attackBuffer == 9){
-                    my.sprite.purpleTownie.y += 12;
-                    my.sprite.purpleTownie.body.setOffset(0, 0);
-                    my.sprite.purpleTownie.anims.play('back_idle', true);
-                    this.cameras.main.startFollow(my.sprite.purpleTownie.body);
-                }
-            }
-        }
-
-        this.attackBuffer++;
     }
 
     tileXtoWorld(tileX) {
@@ -184,6 +227,44 @@ class Church extends Phaser.Scene {
 
     tileYtoWorld(tileY) {
         return tileY * this.TILESIZE;
+    }
+
+    priestTalk() {
+        if(questState != 4){ // blessed day
+            this.p3.visible = true;
+            if(this.option1.isDown && this.talkBuffer > 30){ // No thanks
+                this.p3.visible = false;
+                my.sprite.textBox.visible = false;
+                this.talking = false;
+            } else {
+
+            }
+        } else {
+            if(this.priestLine == 0){ // blessed day
+                this.p1.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // can i have a bottle
+                    this.talkBuffer = 0;
+                    this.priestLine = 1;
+                } else if(this.option2.isDown && this.talkBuffer > 30){ // no thanks
+                    this.p1.visible = false;
+                    my.sprite.textBox.visible = false;
+                    this.talking = false;
+                } else {
+
+                }
+            } else if(this.priestLine == 1){ // blessing
+                this.p1.visible = false;
+                this.p2.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // thank you
+                    this.p2.visible = false;
+                    my.sprite.textBox.visible = false;
+                    this.talking = false;
+                    questState = 5;
+                } else {
+
+                }
+            }
+        }
     }
 
 }

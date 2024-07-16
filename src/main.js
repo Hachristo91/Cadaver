@@ -35,7 +35,7 @@ let config = {
     },
     width: 1280,
     height: 800,
-    scene: [Load, Town, Blacksmith, Church, Cleric, Tavern],
+    scene: [Load, Town, Blacksmith, Church, Cleric, Tavern, Credits, Start],
     fps: { forceSetTimeOut: true, target: 30 }
 }
 
@@ -44,5 +44,8 @@ const SCALE = 2.0;
 var my = {sprite: {}};
 var exitX = 0;
 var exitY = 0;
+var questState = 0;
+var flower = false;
+var secret = false;
 
 const game = new Phaser.Game(config);

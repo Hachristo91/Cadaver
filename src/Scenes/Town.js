@@ -14,6 +14,8 @@ class Town extends Phaser.Scene {
         this.zone = "none";
         this.talking = false;
         this.kioskLine = 0;
+        this.pondLine = 0;
+        this.flowerLine = 0;
     }
 
     create() {
@@ -75,7 +77,7 @@ class Town extends Phaser.Scene {
         if(exitX == 0 && exitY == 0){
             my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(28.5), this.tileYtoWorld(12), "purple").setOrigin(0,0);
             this.sound.play("town_theme", {
-                volume: 0   // Can adjust volume using this, goes from 0 to 1
+                volume: 0.6   // Can adjust volume using this, goes from 0 to 1
             });
         } else {
             my.sprite.purpleTownie = this.physics.add.sprite(this.tileXtoWorld(exitX), this.tileYtoWorld(exitY), "purple").setOrigin(0,0);
@@ -96,9 +98,10 @@ class Town extends Phaser.Scene {
             "Well, you'll need some holy water to start. Fill up a\r\nbottle with that, add a tear from a soul in\r\ntrue love, and voila! Easy\r\n1. Alright, I'll give it a shot\r\n2. I don't think so",
             "Great! Come back here when you think you've got it\r\n1. Leave",
             "Well, I guess you'll have to find another way to get\r\nthe money then. Good luck!\r\n1. Leave",
-            "No, that's not quite right. Keep looking, I believe in you!",
-            "Wow, you actually managed to do it! I'm impressed. Here's the gold, as promised"
-        ]
+            "No, that's not quite right. Keep looking, I believe\r\nin you!\r\n1. Leave",
+            "Wow, you actually managed to do it! I'm impressed.\r\nHere's the gold, as promised\r\n1. Leave",
+            "Hail, friend! Care to browse my wares? It's dangerous\r\nto go alone...Without a healing potion!\r\nOnly 100 gold!\r\n1. No thanks"
+        ];
 
         this.k1 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
             "rocketSquare",this.kioskText[0], 8);
@@ -128,14 +131,58 @@ class Town extends Phaser.Scene {
             "rocketSquare",this.kioskText[6], 8);
         this.k7.visible = false;
 
+        this.k8 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.kioskText[7], 8);
+        this.k8.visible = false;
+
+        this.pondText = [
+            "A pond of crystal clear water\r\n1. Fill your bottle\r\n2. Leave",
+            "You fill the empty bottle with water\r\n1. Leave",
+            "A pond of crystal clear water\r\n1. Leave"
+        ];
+
+        this.p1 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.pondText[0], 8);
+        this.p1.visible = false;
+
+        this.p2 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.pondText[1], 8);
+        this.p2.visible = false;
+
+        this.p3 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.pondText[2], 8);
+        this.p3.visible = false;
+
+        this.flowerText = [
+            "A bed of pretty flowers\r\n1. Pick one\r\n2. Leave",
+            "You pick a flower, a white rose\r\n1. Leave"
+        ];
+
+        this.f1 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.flowerText[0], 8);
+        this.f1.visible = false;
+
+        this.f2 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.flowerText[1], 8);
+        this.f2.visible = false;
+
         // Handle collision with objects
-        this.physics.add.overlap(my.sprite.purpleTownie, this.crypt, (obj1, obj2) => {
-            this.zone = "crypt";
+        this.physics.add.overlap(my.sprite.purpleTownie, this.kiosk, (obj1, obj2) => {
+            this.zone = "kiosk";
             if(this.select.isDown){
-                console.log("loading crypt");
+                my.sprite.textBox.visible = true;
+                this.talking = true;
             }
         });
-        this.physics.add.overlap(my.sprite.purpleTownie, this.kiosk, (obj1, obj2) => {
+        this.physics.add.overlap(my.sprite.purpleTownie, this.pond, (obj1, obj2) => {
+            this.zone = "pond";
+            if(this.select.isDown){
+                my.sprite.textBox.visible = true;
+                this.talking = true;
+            }
+        });
+        this.physics.add.overlap(my.sprite.purpleTownie, this.flowerbed, (obj1, obj2) => {
+            this.zone = "flowerbed";
             if(this.select.isDown){
                 my.sprite.textBox.visible = true;
                 this.talking = true;
@@ -163,7 +210,6 @@ class Town extends Phaser.Scene {
         });
         this.physics.add.overlap(my.sprite.purpleTownie, this.blacksmith, (obj1, obj2) => {
             this.zone = "blacksmith";
-            this.add.bitmapText(this.tileXtoWorld(34), this.tileYtoWorld(13), "rocketSquare", "Enter " + this.zone + "?", 5);
             if(this.select.isDown){
                 console.log("loading blacksmith");
                 obj2.destroy();
@@ -320,11 +366,17 @@ class Town extends Phaser.Scene {
             }
 
             this.attackBuffer++;
-            my.sprite.textBox.x = Math.max(my.sprite.purpleTownie.x, 160);
+            my.sprite.textBox.x = Math.min(Math.max(my.sprite.purpleTownie.x, 160), this.map.widthInPixels - 160) ;
             my.sprite.textBox.y = Math.max(my.sprite.purpleTownie.y - 65, 35);
 
         } else {
-            this.kioskTalk()
+            if(this.zone == "kiosk"){
+                this.kioskTalk();
+            } else if(this.zone == "pond"){
+                this.pondTalk();
+            } else if(this.zone == "flowerbed"){
+                this.flowerTalk();
+            }
             this.talkBuffer++;
                 
 
@@ -340,70 +392,184 @@ class Town extends Phaser.Scene {
     }
 
     kioskTalk() {
-        if(this.kioskLine == 0){ // Want to buy a healing potion?
-            this.k1.x = my.sprite.textBox.x-145;
-            this.k1.y = my.sprite.textBox.y-25;
-            this.k1.visible = true;
+        if(questState == 0){
+            this.k8.x = my.sprite.textBox.x-145;
+            this.k8.y = my.sprite.textBox.y-25;
+            this.k8.visible = true;
             if(this.option1.isDown && this.talkBuffer > 30){ // Need money
-                this.talkBuffer = 0;
-                this.kioskLine = 1;
-            } else if(this.option2.isDown && this.talkBuffer > 30){ // leave
+                this.k8.visible = false;
+                my.sprite.textBox.visible = false;
+                this.talking = false;
+            } else {
+
+            }
+        } else if(questState == 1){
+            if(this.kioskLine == 0){ // Want to buy a healing potion?
+                this.k1.x = my.sprite.textBox.x-145;
+                this.k1.y = my.sprite.textBox.y-25;
+                this.k1.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // Need money
+                    this.talkBuffer = 0;
+                    this.kioskLine = 1;
+                } else if(this.option2.isDown && this.talkBuffer > 30){ // leave
+                    this.k1.visible = false;
+                    my.sprite.textBox.visible = false;
+                    this.talking = false;
+                } else {
+
+                }
+            } else if(this.kioskLine == 1){ // get me a healing potion, ill give you money
                 this.k1.visible = false;
+                this.k2.x = my.sprite.textBox.x-145;
+                this.k2.y = my.sprite.textBox.y-25;
+                this.k2.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // how to make potion
+                    this.talkBuffer = 0;
+                    this.kioskLine = 2;
+                } else if(this.option2.isDown && this.talkBuffer > 30){ // deal
+                    this.talkBuffer = 0;
+                    this.kioskLine = 3;
+                } else {
+
+                }
+            } else if(this.kioskLine == 2){ // here's what you need
+                this.k2.visible = false;
+                this.k3.x = my.sprite.textBox.x-145;
+                this.k3.y = my.sprite.textBox.y-25;
+                this.k3.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // i'll try
+                    this.talkBuffer = 0;
+                    this.kioskLine = 3;
+                } else if(this.option2.isDown && this.talkBuffer > 30){ // no thanks
+                    this.talkBuffer = 0;
+                    this.kioskLine = 4;
+                } else {
+
+                }
+            } else if(this.kioskLine == 3){ // great, come back with the potion
+                this.k2.visible = false;
+                this.k3.visible = false;
+                this.k4.x = my.sprite.textBox.x-145;
+                this.k4.y = my.sprite.textBox.y-25;
+                this.k4.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // leave
+                    this.k4.visible = false;
+                    my.sprite.textBox.visible = false;
+                    this.talking = false;
+                    questState = 2;
+                } else {
+
+                }
+            } else if(this.kioskLine == 4){ // find the money somewhere else
+                this.k3.visible = false;
+                this.k5.x = my.sprite.textBox.x-145;
+                this.k5.y = my.sprite.textBox.y-25;
+                this.k5.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // leave
+                    this.k5.visible = false;
+                    my.sprite.textBox.visible = false;
+                    this.talking = false;
+                } else {
+
+                }
+            }
+        } else if(questState == 5 && tearquestState == 3){ // Wow, you got the potion
+            this.k7.x = my.sprite.textBox.x-145;
+            this.k7.y = my.sprite.textBox.y-25;
+            this.k7.visible = true;
+            if(this.option1.isDown && this.talkBuffer > 30){ // take gold
+                this.k7.visible = false;
                 my.sprite.textBox.visible = false;
                 this.talking = false;
+                questState = 6;
             } else {
 
             }
-        } else if(this.kioskLine == 1){
-            this.k1.visible = false;
-            this.k2.x = my.sprite.textBox.x-145;
-            this.k2.y = my.sprite.textBox.y-25;
-            this.k2.visible = true;
-            if(this.option1.isDown && this.talkBuffer > 30){ // how to make potion
-                this.talkBuffer = 0;
-                this.kioskLine = 2;
-            } else if(this.option2.isDown && this.talkBuffer > 30){ // deal
-                this.talkBuffer = 0;
-                this.kioskLine = 3;
-            } else {
-
-            }
-        } else if(this.kioskLine == 2){
-            this.k2.visible = false;
-            this.k3.x = my.sprite.textBox.x-145;
-            this.k3.y = my.sprite.textBox.y-25;
-            this.k3.visible = true;
-            if(this.option1.isDown && this.talkBuffer > 30){ // i'll try
-                this.talkBuffer = 0;
-                this.kioskLine = 3;
-            } else if(this.option2.isDown && this.talkBuffer > 30){ // no thanks
-                this.talkBuffer = 0;
-                this.kioskLine = 4;
-            } else {
-
-            }
-        } else if(this.kioskLine == 3){
-            this.k2.visible = false;
-            this.k3.visible = false;
-            this.k4.x = my.sprite.textBox.x-145;
-            this.k4.y = my.sprite.textBox.y-25;
-            this.k4.visible = true;
+        } else { // not quite right
+            this.k6.x = my.sprite.textBox.x-145;
+            this.k6.y = my.sprite.textBox.y-25;
+            this.k6.visible = true;
             if(this.option1.isDown && this.talkBuffer > 30){ // leave
-                this.k4.visible = false;
+                this.k6.visible = false;
                 my.sprite.textBox.visible = false;
                 this.talking = false;
             } else {
 
             }
-        } else if(this.kioskLine == 4){
-            this.k3.visible = false;
-            this.k5.x = my.sprite.textBox.x-145;
-            this.k5.y = my.sprite.textBox.y-25;
-            this.k5.visible = true;
-            if(this.option1.isDown && this.talkBuffer > 30){ // leave
-                this.k5.visible = false;
+        }
+    }
+
+    pondTalk() {
+        if(questState != 3){ // pretty pond
+            this.p3.x = my.sprite.textBox.x-145;
+            this.p3.y = my.sprite.textBox.y-25;
+            this.p3.visible = true;
+            if(this.option1.isDown && this.talkBuffer > 30){ // Leave
+                this.p3.visible = false;
                 my.sprite.textBox.visible = false;
                 this.talking = false;
+            } else {
+
+            }
+        } else {
+            if(this.pondLine == 0){ // pretty pond
+                this.p1.x = my.sprite.textBox.x-145;
+                this.p1.y = my.sprite.textBox.y-25;
+                this.p1.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // fill bottle
+                    this.talkBuffer = 0;
+                    this.pondLine = 1;
+                } else if(this.option2.isDown && this.talkBuffer > 30){ // leave
+                    this.p1.visible = false;
+                    my.sprite.textBox.visible = false;
+                    this.talking = false;
+                } else {
+
+                }
+            } else if(this.pondLine == 1){ // fill bottle
+                this.p1.visible = false;
+                this.p2.x = my.sprite.textBox.x-145;
+                this.p2.y = my.sprite.textBox.y-25;
+                this.p2.visible = true;
+                if(this.option1.isDown && this.talkBuffer > 30){ // leave
+                    this.p2.visible = false;
+                    my.sprite.textBox.visible = false;
+                    this.talking = false;
+                    questState = 4;
+                } else {
+
+                }
+            }
+        }
+    }
+
+    flowerTalk() {
+        if(this.flowerLine == 0){ // pretty flowers
+            this.f1.x = my.sprite.textBox.x-145;
+            this.f1.y = my.sprite.textBox.y-25;
+            this.f1.visible = true;
+            if(this.option1.isDown && this.talkBuffer > 30){ // pick flower
+                this.talkBuffer = 0;
+                this.flowerLine = 1;
+            } else if(this.option2.isDown && this.talkBuffer > 30){ // leave
+                this.f1.visible = false;
+                my.sprite.textBox.visible = false;
+                this.talking = false;
+            } else {
+
+            }
+        } else if(this.flowerLine == 1){ // pick flower
+            this.f1.visible = false;
+            this.f2.x = my.sprite.textBox.x-145;
+            this.f2.y = my.sprite.textBox.y-25;
+            this.f2.visible = true;
+            if(this.option1.isDown && this.talkBuffer > 30){ // leave
+                this.f2.visible = false;
+                my.sprite.textBox.visible = false;
+                this.talking = false;
+                if(flower == false){
+                    flower = true;
+                }
             } else {
 
             }

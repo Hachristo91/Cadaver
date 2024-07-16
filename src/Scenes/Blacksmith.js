@@ -12,6 +12,8 @@ class Blacksmith extends Phaser.Scene {
         this.TILEWIDTH = 10;
         this.TILEHEIGHT = 7;
         this.zone = "none";
+        this.talking = false;
+        this.smithLine = 0;
     }
 
     create() {
@@ -44,7 +46,25 @@ class Blacksmith extends Phaser.Scene {
         my.sprite.purpleTownie.setCollideWorldBounds(true);
         my.sprite.purpleTownie.setScale(0.8);
 
+        my.sprite.textBox = this.physics.add.sprite(160, 35, "textBox");
+        my.sprite.textBox.setScale(1, 0.5);
+        my.sprite.textBox.visible = false;
+
         this.select = this.input.keyboard.addKey('E');
+
+        // Text
+        this.smithText = [
+            "Oh, thank god it's not her. What'll it be?\r\n1. Nothing right now, thanks\r\n2. Who's her?",
+            "The town scholar. She comes in here everyday but\r\nnever buys anything. I don't know what her angle is\r\n1. Leave"
+        ];
+
+        this.s1 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.smithText[0], 8);
+        this.s1.visible = false;
+
+        this.s2 = this.add.bitmapText(my.sprite.textBox.x-145, my.sprite.textBox.y-25, 
+            "rocketSquare",this.smithText[1], 8);
+        this.s2.visible = false;
 
         // Handle collision with objects
         this.physics.add.overlap(my.sprite.purpleTownie, this.town, (obj1, obj2) => {
@@ -53,6 +73,14 @@ class Blacksmith extends Phaser.Scene {
                 obj2.destroy();
                 console.log("loading town");
                 this.scene.start("townScene");
+            }
+        });
+
+        this.physics.add.overlap(my.sprite.purpleTownie, this.shop, (obj1, obj2) => {
+            this.zone = "shop";
+            if(this.select.isDown){
+                my.sprite.textBox.visible = true;
+                this.talking = true;
             }
         });
 
@@ -79,34 +107,51 @@ class Blacksmith extends Phaser.Scene {
         this.right = this.input.keyboard.addKey('D');
         this.attack = this.input.keyboard.addKey('SPACE');
 
-        this.physics.world.drawDebug = true;
+        this.option1 = this.input.keyboard.addKey('ONE');
+        this.option2 = this.input.keyboard.addKey('TWO');
+
+        this.physics.world.drawDebug = false;
         this.attackBuffer = 0;
+        this.talkBuffer = 0;
         this.facing = "down";
 
     }
 
     update() {
-        if(this.attackBuffer > 10){
-            if(this.up.isDown){
-                my.sprite.purpleTownie.setVelocityY(-100);
-                my.sprite.purpleTownie.setVelocityX(0);
-                my.sprite.purpleTownie.anims.play('walk_back', true);
-                this.facing = "up";
-            } else if(this.left.isDown){
-                my.sprite.purpleTownie.setVelocityX(-100);
-                my.sprite.purpleTownie.setVelocityY(0);
-                my.sprite.purpleTownie.anims.play('walk_left', true);
-                this.facing = "left";
-            } else if(this.down.isDown){
-                my.sprite.purpleTownie.setVelocityY(100);
-                my.sprite.purpleTownie.setVelocityX(0);
-                my.sprite.purpleTownie.anims.play('walk_down', true);
-                this.facing = "down";
-            } else if(this.right.isDown){
-                my.sprite.purpleTownie.setVelocityX(100);
-                my.sprite.purpleTownie.setVelocityY(0);
-                my.sprite.purpleTownie.anims.play('walk_right', true);
-                this.facing = "right";
+        if(this.talking == false){
+            if(this.attackBuffer > 10){
+                if(this.up.isDown){
+                    my.sprite.purpleTownie.setVelocityY(-100);
+                    my.sprite.purpleTownie.setVelocityX(0);
+                    my.sprite.purpleTownie.anims.play('walk_back', true);
+                    this.facing = "up";
+                } else if(this.left.isDown){
+                    my.sprite.purpleTownie.setVelocityX(-100);
+                    my.sprite.purpleTownie.setVelocityY(0);
+                    my.sprite.purpleTownie.anims.play('walk_left', true);
+                    this.facing = "left";
+                } else if(this.down.isDown){
+                    my.sprite.purpleTownie.setVelocityY(100);
+                    my.sprite.purpleTownie.setVelocityX(0);
+                    my.sprite.purpleTownie.anims.play('walk_down', true);
+                    this.facing = "down";
+                } else if(this.right.isDown){
+                    my.sprite.purpleTownie.setVelocityX(100);
+                    my.sprite.purpleTownie.setVelocityY(0);
+                    my.sprite.purpleTownie.anims.play('walk_right', true);
+                    this.facing = "right";
+                } else {
+                    my.sprite.purpleTownie.setVelocity(0);
+                    if(this.facing == "down"){
+                        my.sprite.purpleTownie.anims.play('down_idle', true);
+                    } else if(this.facing == "right"){
+                        my.sprite.purpleTownie.anims.play('right_idle', true);
+                    } else if(this.facing == "left"){
+                        my.sprite.purpleTownie.anims.play('left_idle', true);
+                    } else {
+                        my.sprite.purpleTownie.anims.play('back_idle', true);
+                    }
+                }
             } else {
                 my.sprite.purpleTownie.setVelocity(0);
                 if(this.facing == "down"){
@@ -119,62 +164,54 @@ class Blacksmith extends Phaser.Scene {
                     my.sprite.purpleTownie.anims.play('back_idle', true);
                 }
             }
+
+            if(this.attack.isDown && this.attackBuffer > 15){
+                my.sprite.purpleTownie.setVelocity(0);
+                this.attackBuffer = 0;
+                this.sound.play("attack", {
+                    volume: 1   // Can adjust volume using this, goes from 0 to 1
+                });
+            }
+
+            if(this.attackBuffer < 10){
+                if(this.facing == "down"){
+                    my.sprite.purpleTownie.anims.play('down_stab', true);
+                } else if(this.facing == "right"){
+                    my.sprite.purpleTownie.anims.play('right_stab', true);
+                } else if(this.facing == "left"){
+                    if(this.attackBuffer == 0){
+                        this.cameras.main.stopFollow();
+                        my.sprite.purpleTownie.x -= 12;
+                        my.sprite.purpleTownie.body.setOffset(15, 0);
+                    }
+                    my.sprite.purpleTownie.anims.play('left_stab', true);
+                    if(this.attackBuffer == 9){
+                        my.sprite.purpleTownie.x += 12;
+                        my.sprite.purpleTownie.body.setOffset(0, 0);
+                        my.sprite.purpleTownie.anims.play('left_idle', true);
+                        this.cameras.main.startFollow(my.sprite.purpleTownie.body);
+                    }
+                } else {
+                    if(this.attackBuffer == 0){
+                        this.cameras.main.stopFollow();
+                        my.sprite.purpleTownie.y -= 12;
+                        my.sprite.purpleTownie.body.setOffset(0, 15);
+                    }
+                    my.sprite.purpleTownie.anims.play('back_stab', true);
+                    if(this.attackBuffer == 9){
+                        my.sprite.purpleTownie.y += 12;
+                        my.sprite.purpleTownie.body.setOffset(0, 0);
+                        my.sprite.purpleTownie.anims.play('back_idle', true);
+                        this.cameras.main.startFollow(my.sprite.purpleTownie.body);
+                    }
+                }
+            }
+
+            this.attackBuffer++;
         } else {
-            my.sprite.purpleTownie.setVelocity(0);
-            if(this.facing == "down"){
-                my.sprite.purpleTownie.anims.play('down_idle', true);
-            } else if(this.facing == "right"){
-                my.sprite.purpleTownie.anims.play('right_idle', true);
-            } else if(this.facing == "left"){
-                my.sprite.purpleTownie.anims.play('left_idle', true);
-            } else {
-                my.sprite.purpleTownie.anims.play('back_idle', true);
-            }
+            this.smithTalk();
+            this.talkBuffer++;
         }
-
-        if(this.attack.isDown && this.attackBuffer > 15){
-            my.sprite.purpleTownie.setVelocity(0);
-            this.attackBuffer = 0;
-            this.sound.play("attack", {
-                volume: 1   // Can adjust volume using this, goes from 0 to 1
-            });
-        }
-
-        if(this.attackBuffer < 10){
-            if(this.facing == "down"){
-                my.sprite.purpleTownie.anims.play('down_stab', true);
-            } else if(this.facing == "right"){
-                my.sprite.purpleTownie.anims.play('right_stab', true);
-            } else if(this.facing == "left"){
-                if(this.attackBuffer == 0){
-                    this.cameras.main.stopFollow();
-                    my.sprite.purpleTownie.x -= 12;
-                    my.sprite.purpleTownie.body.setOffset(15, 0);
-                }
-                my.sprite.purpleTownie.anims.play('left_stab', true);
-                if(this.attackBuffer == 9){
-                    my.sprite.purpleTownie.x += 12;
-                    my.sprite.purpleTownie.body.setOffset(0, 0);
-                    my.sprite.purpleTownie.anims.play('left_idle', true);
-                    this.cameras.main.startFollow(my.sprite.purpleTownie.body);
-                }
-            } else {
-                if(this.attackBuffer == 0){
-                    this.cameras.main.stopFollow();
-                    my.sprite.purpleTownie.y -= 12;
-                    my.sprite.purpleTownie.body.setOffset(0, 15);
-                }
-                my.sprite.purpleTownie.anims.play('back_stab', true);
-                if(this.attackBuffer == 9){
-                    my.sprite.purpleTownie.y += 12;
-                    my.sprite.purpleTownie.body.setOffset(0, 0);
-                    my.sprite.purpleTownie.anims.play('back_idle', true);
-                    this.cameras.main.startFollow(my.sprite.purpleTownie.body);
-                }
-            }
-        }
-
-        this.attackBuffer++;
     }
 
     tileXtoWorld(tileX) {
@@ -183,6 +220,36 @@ class Blacksmith extends Phaser.Scene {
 
     tileYtoWorld(tileY) {
         return tileY * this.TILESIZE;
+    }
+
+    smithTalk() {
+        if(this.smithLine == 0){ // not her, what'll it be
+            this.s1.visible = true;
+            if(this.option1.isDown && this.talkBuffer > 30){ // nothing
+                this.s1.visible = false;
+                my.sprite.textBox.visible = false;
+                this.talking = false;
+            } else if(this.option2.isDown && this.talkBuffer > 30){ // who's her
+                this.talkBuffer = 0;
+                this.smithLine = 1;
+            } else {
+
+            }
+        } else if(this.smithLine == 1){ // she comes everyday
+            this.s1.visible = false;
+            this.s2.visible = true;
+            if(this.option1.isDown && this.talkBuffer > 30){ // leave
+                this.s2.visible = false;
+                my.sprite.textBox.visible = false;
+                this.talking = false;
+                if(secret == false){
+                    secret = true;
+                }
+                
+            } else {
+
+            }
+        }
     }
 
 }
