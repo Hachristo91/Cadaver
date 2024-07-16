@@ -47,5 +47,6 @@ var exitY = 0;
 var questState = 0;
 var flower = false;
 var secret = false;
+var tearquestState = 0;
 
 const game = new Phaser.Game(config);

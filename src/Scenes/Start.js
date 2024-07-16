@@ -8,8 +8,11 @@ class Start extends Phaser.Scene {
     }
 
     create(){
-        this.add.bitmapText(330, 300, "rocketSquare", "Fetch Quest");
-        this.add.bitmapText(220, 330, "rocketSquare", "Press Space to Begin");
+        this.add.bitmapText(400, 150, "rocketSquare", "Fetch Quest");
+        this.add.bitmapText(400, 330, "rocketSquare", "WASD to move");
+        this.add.bitmapText(400, 360, "rocketSquare", "E to interact");
+        this.add.bitmapText(400, 390, "rocketSquare", "1 and 2 to talk");
+        this.add.bitmapText(400, 420, "rocketSquare", "Press Space to Begin");
         this.rKey = this.input.keyboard.addKey('SPACE');
     }
 
